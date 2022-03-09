@@ -1,4 +1,3 @@
-//var THREE = require(["node_modules/three/build/three.js"])
 //colors
 const red =  new THREE.Color( 0xFF0000 );
 const orange = new THREE.Color( 0xFFA500 );

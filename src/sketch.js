@@ -8,6 +8,8 @@ var controls;
 
 //Cube
 var cube = new Cube(0, 0, 0, 1);
+
+//map of white cross solutions pulled from a sollutions.json
 var correctCrossMap = Utilities.importCorrectwhiteCrossMap();
 
 var clockwise = true;
