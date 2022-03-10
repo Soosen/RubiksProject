@@ -28,7 +28,7 @@ class Solver{
         }
         
         //second layer
-        console.log("2. Solving the second layer");
+        console.log("2. Solving first two layers");
         currentState, solution = this.secondLayer(currentState, solution);
 
         if(!States.isSecondLayer(currentState)){
@@ -67,7 +67,6 @@ class Solver{
             return solution;
         }
         
-
         solution = this.translateSoltution(solution);
         return solution;
         

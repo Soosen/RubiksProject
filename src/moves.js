@@ -6,6 +6,24 @@ class Moves {
     static allMovesWithDoubles(){
         return ["u","uPrim","d","dPrim","f","fPrim","b","bPrim","r","rPrim","l","lPrim","d-d", "u-u", "f-f", "b-b","l-l", "r-r"];
     }
+    static fMoveCube(cube){
+        //corners
+        var temp = cube.cubies[0][0][2];
+
+        cube.cubies[0][0][2] = cube.cubies[2][0][2];
+        cube.cubies[2][0][2] = cube.cubies[2][2][2];
+        cube.cubies[2][2][2] = cube.cubies[0][2][2];
+        cube.cubies[0][2][2] = temp;
+
+        //edges
+        temp = cube.cubies[0][1][2];
+
+        cube.cubies[0][1][2] = cube.cubies[1][0][2];
+        cube.cubies[1][0][2] = cube.cubies[2][1][2];
+        cube.cubies[2][1][2] = cube.cubies[1][2][2];
+        cube.cubies[1][2][2] = temp;
+    }
+
 
     static fMove(givenState){
         givenState[2] = this.rotateFace(givenState[2], false);
@@ -35,6 +53,24 @@ class Moves {
     
          return givenState;       
         
+    }
+
+    static fPrimMoveCube(cube){
+        //corners
+        var temp = cube.cubies[0][2][2];
+
+        cube.cubies[0][2][2] = cube.cubies[2][2][2];
+        cube.cubies[2][2][2] = cube.cubies[2][0][2];
+        cube.cubies[2][0][2] = cube.cubies[0][0][2];       
+        cube.cubies[0][0][2] = temp;
+
+        //edges
+        temp = cube.cubies[1][2][2];
+
+        cube.cubies[1][2][2] = cube.cubies[2][1][2];
+        cube.cubies[2][1][2] = cube.cubies[1][0][2];
+        cube.cubies[1][0][2] = cube.cubies[0][1][2];        
+        cube.cubies[0][1][2] = temp;
     }
 
     static fPrimMove(givenState){
@@ -69,6 +105,25 @@ class Moves {
 
     }
 
+    static bMoveCube(cube){
+        //corners
+        var temp = cube.cubies[0][0][0];
+
+        cube.cubies[0][0][0] = cube.cubies[0][2][0];
+        cube.cubies[0][2][0] = cube.cubies[2][2][0];
+        cube.cubies[2][2][0] = cube.cubies[2][0][0];
+        cube.cubies[2][0][0] = temp;
+
+        //edges
+        temp = cube.cubies[0][1][0];
+
+        cube.cubies[0][1][0] = cube.cubies[1][2][0];
+        cube.cubies[1][2][0] = cube.cubies[2][1][0];
+        cube.cubies[2][1][0] = cube.cubies[1][0][0];
+        cube.cubies[1][0][0] = temp;
+    }
+
+
     static bMove(givenState){
 
         givenState[3] = this.rotateFace(givenState[3], true);
@@ -100,6 +155,24 @@ class Moves {
 
     }
 
+    static bPrimMoveCube(cube){
+        //corners
+        var temp = cube.cubies[2][0][0];
+
+        cube.cubies[2][0][0] = cube.cubies[2][2][0];
+        cube.cubies[2][2][0] = cube.cubies[0][2][0];
+        cube.cubies[0][2][0] = cube.cubies[0][0][0];      
+        cube.cubies[0][0][0] = temp;
+
+        //edges
+        temp = cube.cubies[1][0][0];
+
+        cube.cubies[1][0][0] = cube.cubies[2][1][0];
+        cube.cubies[2][1][0] = cube.cubies[1][2][0];
+        cube.cubies[1][2][0] = cube.cubies[0][1][0];      
+        cube.cubies[0][1][0] = temp;
+    }
+   
     static bPrimMove(givenState){
         
         givenState[3] = this.rotateFace(givenState[3], false);
@@ -131,6 +204,25 @@ class Moves {
 
     }
 
+    static uMoveCube(cube){
+        //corners
+        var temp = cube.cubies[0][2][0];
+
+        cube.cubies[0][2][0] = cube.cubies[0][2][2];
+        cube.cubies[0][2][2] = cube.cubies[2][2][2];
+        cube.cubies[2][2][2] = cube.cubies[2][2][0];
+        cube.cubies[2][2][0] = temp;
+
+        //edges
+        temp = cube.cubies[0][2][1];
+
+        cube.cubies[0][2][1] = cube.cubies[1][2][2];
+        cube.cubies[1][2][2] = cube.cubies[2][2][1];
+        cube.cubies[2][2][1] = cube.cubies[1][2][0];
+        cube.cubies[1][2][0] = temp;
+    }
+
+
     static uMove(givenState){
         givenState[0] = this.rotateFace(givenState[0], false);
         var copy = Utilities.copyState(givenState);
@@ -156,6 +248,24 @@ class Moves {
          givenState[4][0][2] = copy[3][0][2];
 
         return givenState;
+    }
+
+    static uPrimMoveCube(cube){
+        //corners
+        var temp = cube.cubies[2][2][0];
+
+        cube.cubies[2][2][0] = cube.cubies[2][2][2];
+        cube.cubies[2][2][2] = cube.cubies[0][2][2];
+        cube.cubies[0][2][2] = cube.cubies[0][2][0];
+        cube.cubies[0][2][0] = temp;
+
+        //edges
+        temp = cube.cubies[1][2][0];
+
+        cube.cubies[1][2][0] = cube.cubies[2][2][1];
+        cube.cubies[2][2][1] = cube.cubies[1][2][2];
+        cube.cubies[1][2][2] = cube.cubies[0][2][1];        
+        cube.cubies[0][2][1] = temp;
     }
 
     static uPrimMove(givenState){
@@ -184,6 +294,24 @@ class Moves {
          givenState[3][0][2] = copy[4][0][2];
 
         return givenState;
+    }
+
+    static dMoveCube(cube){
+        //corners
+        var temp = cube.cubies[2][0][0];
+
+        cube.cubies[2][0][0] = cube.cubies[2][0][2];
+        cube.cubies[2][0][2] = cube.cubies[0][0][2];
+        cube.cubies[0][0][2] = cube.cubies[0][0][0];
+        cube.cubies[0][0][0] = temp;
+
+        //edges
+        temp = cube.cubies[1][0][0];
+
+        cube.cubies[1][0][0] = cube.cubies[2][0][1];
+        cube.cubies[2][0][1] = cube.cubies[1][0][2];
+        cube.cubies[1][0][2] = cube.cubies[0][0][1]; 
+        cube.cubies[0][0][1] = temp;
     }
 
     static dMove(givenState){
@@ -215,6 +343,24 @@ class Moves {
 
     }
 
+    static dPrimMoveCube(cube){
+        //corners
+        var temp = cube.cubies[0][0][0];
+
+        cube.cubies[0][0][0] = cube.cubies[0][0][2];
+        cube.cubies[0][0][2] = cube.cubies[2][0][2];
+        cube.cubies[2][0][2] = cube.cubies[2][0][0];
+        cube.cubies[2][0][0] = temp;
+
+        //edges
+        temp = cube.cubies[0][0][1];
+
+        cube.cubies[0][0][1] = cube.cubies[1][0][2];
+        cube.cubies[1][0][2] = cube.cubies[2][0][1];
+        cube.cubies[2][0][1] = cube.cubies[1][0][0];
+        cube.cubies[1][0][0] = temp;
+    }
+
     static dPrimMove(givenState){
         givenState[1] = this.rotateFace(givenState[1], false);
         var copy = Utilities.copyState(givenState);
@@ -241,6 +387,24 @@ class Moves {
 
         return givenState; 
 
+    }
+
+    static rMoveCube(cube){
+        //corners
+        var temp = cube.cubies[2][2][2];
+
+        cube.cubies[2][2][2] = cube.cubies[2][0][2];
+        cube.cubies[2][0][2] = cube.cubies[2][0][0];
+        cube.cubies[2][0][0] = cube.cubies[2][2][0];
+        cube.cubies[2][2][0] = temp;
+
+        //edges
+        temp = cube.cubies[2][1][0];
+
+        cube.cubies[2][1][0] = cube.cubies[2][2][1];
+        cube.cubies[2][2][1] = cube.cubies[2][1][2];
+        cube.cubies[2][1][2] = cube.cubies[2][0][1];
+        cube.cubies[2][0][1] = temp;
     }
 
     static rMove(givenState){
@@ -272,6 +436,24 @@ class Moves {
 
     }
 
+    static rPrimMoveCube(cube){
+        //corners
+        var temp = cube.cubies[2][2][0];
+
+        cube.cubies[2][2][0] = cube.cubies[2][0][0];
+        cube.cubies[2][0][0] = cube.cubies[2][0][2];
+        cube.cubies[2][0][2] = cube.cubies[2][2][2];
+        cube.cubies[2][2][2] = temp;
+
+        //edges
+        temp = cube.cubies[2][0][1];
+
+        cube.cubies[2][0][1] = cube.cubies[2][1][2];
+        cube.cubies[2][1][2] = cube.cubies[2][2][1];
+        cube.cubies[2][2][1] = cube.cubies[2][1][0];
+        cube.cubies[2][1][0] = temp;
+    }
+
     static rPrimMove(givenState){
         givenState[4] = this.rotateFace(givenState[4], false);
         var copy = Utilities.copyState(givenState);
@@ -298,6 +480,24 @@ class Moves {
 
         return givenState; 
 
+    }
+
+    static lMoveCube(cube){
+        //corners
+        var temp = cube.cubies[0][2][0];
+
+        cube.cubies[0][2][0] = cube.cubies[0][0][0];
+        cube.cubies[0][0][0] = cube.cubies[0][0][2];
+        cube.cubies[0][0][2] = cube.cubies[0][2][2];
+        cube.cubies[0][2][2] = temp;
+
+        //edges
+        temp = cube.cubies[0][0][1];
+
+        cube.cubies[0][0][1] = cube.cubies[0][1][2];
+        cube.cubies[0][1][2] = cube.cubies[0][2][1];
+        cube.cubies[0][2][1] = cube.cubies[0][1][0];
+        cube.cubies[0][1][0] = temp;
     }
 
     static lMove(givenState){
@@ -327,6 +527,24 @@ class Moves {
 
         return givenState;     
 
+    }
+
+    static lPrimMoveCube(cube){
+        //corners
+        var temp = cube.cubies[0][2][2];
+
+        cube.cubies[0][2][2] = cube.cubies[0][0][2];
+        cube.cubies[0][0][2] = cube.cubies[0][0][0];
+        cube.cubies[0][0][0] = cube.cubies[0][2][0];
+        cube.cubies[0][2][0] = temp;
+
+        //edges
+        temp = cube.cubies[0][1][0];
+
+        cube.cubies[0][1][0] = cube.cubies[0][2][1];
+        cube.cubies[0][2][1] = cube.cubies[0][1][2];
+        cube.cubies[0][1][2] = cube.cubies[0][0][1];
+        cube.cubies[0][0][1] = temp;
     }
 
     static lPrimMove(givenState){

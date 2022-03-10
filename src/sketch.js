@@ -2,7 +2,7 @@ const width = 800;
 const height = 800;
 
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, width / height, 1, 1000 );
+var camera = new THREE.PerspectiveCamera( 75, width / height, 2, 2000 );
 var controls;
 
 
@@ -21,6 +21,7 @@ camera.position.x = 3;
 camera.position.y = 3;
 camera.lookAt (new THREE.Vector3(cube.midX, cube.midY, cube.midZ));  
 
+
 //Creates renderer and adds it to the DOM
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(width, height);
@@ -35,6 +36,7 @@ function render() {
   requestAnimationFrame( render );
   renderer.render( scene, camera ); 
   controls.update();
+  
   if(cube.turnZActive){
     cube.turnZ(cube.direct, cube.clck);
   }
@@ -44,6 +46,7 @@ function render() {
   if(cube.turnXActive){
     cube.turnX(cube.direct, cube.clck);
   }
+  
 }
 
 document.addEventListener("keydown", onDocumentKeyDown, false);
@@ -91,8 +94,9 @@ async function onDocumentKeyDown(event) {
 
         case 83:
           //s
-          cube.scramble(30);
-          cube.solve(true);          
+          cube.scramble(30, false);
+          await new Promise(r => setTimeout(r, 20))
+          cube.solve(true);       
           break;
 
           case 77:

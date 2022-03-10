@@ -30,7 +30,6 @@ class Utilities{
         }
         return true;
     }
-
     //translate a string to a color object
     static stringToColor(c){
         switch(c){
@@ -90,8 +89,7 @@ class Utilities{
             state = this.stringToMove(moves[i], state);
         }
         return state;
-    }
-    
+    }    
 
     static copyState(givenState){
         var copy = [];
@@ -203,7 +201,7 @@ class Utilities{
     }
 
     static importCorrectwhiteCrossMap(){
-        var string = this.readJsonFile("data/solutions.json");
+        var string = this.readJsonFile("../data/solutions.json");
 
         var obj = JSON.parse(global);
 
@@ -228,6 +226,52 @@ class Utilities{
             }
         }
         rawFile.send(null);
+    }
+
+    static laodTextures(textures){
+
+        if(textures.length != 0)
+            return;
+
+        textures = [];
+        textures.push(new THREE.TextureLoader().load('../textures/white.png'));
+        textures.push(new THREE.TextureLoader().load('../textures/yellow.png'));
+        textures.push(new THREE.TextureLoader().load('../textures/green.png'));
+        textures.push(new THREE.TextureLoader().load('../textures/blue.png'));
+        textures.push(new THREE.TextureLoader().load('../textures/red.png'));
+        textures.push(new THREE.TextureLoader().load('../textures/orange.png'));
+        textures.push(new THREE.TextureLoader().load('../textures/orange.png'));
+        textures.push(new THREE.TextureLoader().load('../textures/black.png'));
+
+        return textures;
+        //texture.anisotropy = renderer.getMaxAnisotropy();
+    }
+
+    static stringToTexture(c){
+        var textures = [];
+        textures = Utilities.laodTextures(textures);
+        switch(c){
+            case "W":
+                return textures[0];
+
+            case "Y":
+                return textures[1];
+
+            case "G":
+                return textures[2];
+
+            case "B":
+                return textures[3];
+
+            case "R":
+                return textures[4];
+
+            case "O":
+                return textures[5];
+            
+            default:
+                return textures[6];            
+        }
     }
 }
     

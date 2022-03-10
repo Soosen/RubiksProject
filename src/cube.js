@@ -7,14 +7,15 @@ const white = new THREE.Color( 0xFFFFFF );
 const yellow = new THREE.Color( 0xFFFF00 );
 const black = new THREE.Color( 0x000000 );
 
+const blackTexture = new THREE.TextureLoader().load('../textures/black.png');
+
 const dimensions = 3;
 
-//3 max speed
-//0.5 quick
-//0.2 normal
-//<0.1 slow
-const speed = 0.2;
-const spinDuration = 60/speed;
+//0.48 max speed
+const speed = 0.48;
+
+//40/speed min duration
+const spinDuration = 40/speed;
 
 class Cube {
     constructor(x, y, z, cs) {
@@ -29,7 +30,7 @@ class Cube {
       this.radius = this.midX - this.x;
       this.state = States.resetState();
       this.cubies = this.createCube();
-      this.paintCube();
+      this.paintCubeTextures();
       this.blocked = false;
       this.timer = 0;
       this.timeToSpin = 3.14/2/speed;
@@ -54,7 +55,51 @@ class Cube {
     }
 
     //create all cubies objects and select accurate colors
-    paintCube() {     
+    paintCubeTextures() {    
+        for(var i = 0; i < dimensions; i++){
+          for(var j = 0; j < dimensions; j++){
+            for(var k = 0; k < dimensions; k++){
+                var up = blackTexture;
+                var down = blackTexture;
+                var front = blackTexture;
+                var back = blackTexture;
+                var right = blackTexture;
+                var left = blackTexture;
+                if(j == 0){
+                    //down = Utilities.stringToColor(this.state[1][k][i]);
+                    down = Utilities.stringToTexture(this.state[1][k][i]);
+                }
+                if(j == dimensions - 1){
+                    //up = Utilities.stringToColor(this.state[0][k][i]);
+                    up = Utilities.stringToTexture(this.state[0][k][i]);
+                }
+
+                if(i == 0){
+                    //left = Utilities.stringToColor(this.state[5][k][j]);
+                    left = Utilities.stringToTexture(this.state[5][k][j]);
+                }
+                if(i == dimensions - 1){
+                    //right = Utilities.stringToColor(this.state[4][k][j]);
+                    right = Utilities.stringToTexture(this.state[4][k][j]);
+                }
+
+                if(k == 0){
+                    //back = Utilities.stringToColor(this.state[3][i][j]);
+                    back = Utilities.stringToTexture(this.state[3][i][j]);
+                }
+                if(k == dimensions - 1){
+                    //front = Utilities.stringToColor(this.state[2][i][j]);
+                    front = Utilities.stringToTexture(this.state[2][i][j]);
+                }
+                this.cubies[i][j][k] = new Cubie(this.x+i+i*0.1-this.cubieSize, this.y+j+j*0.1-this.cubieSize, this.z+k+k*0.1-this.cubieSize , this.cubieSize, up, down, front, back, right, left);
+                this.cubies[i][j][k].draw();
+            }
+          }
+        }
+    }
+
+    paintCubeColors() {     
+        console.log("colors"); 
         for(var i = 0; i < dimensions; i++){
           for(var j = 0; j < dimensions; j++){
             for(var k = 0; k < dimensions; k++){
@@ -65,23 +110,29 @@ class Cube {
                 var right = black;
                 var left = black;
                 if(j == 0){
-                    down = Utilities.stringToColor(this.state[1][k][i]);;
+                    //down = Utilities.stringToColor(this.state[1][k][i]);
+                    down = Utilities.stringToColor(this.state[1][k][i]);
                 }
                 if(j == dimensions - 1){
+                    //up = Utilities.stringToColor(this.state[0][k][i]);
                     up = Utilities.stringToColor(this.state[0][k][i]);
                 }
 
                 if(i == 0){
-                    left = Utilities.stringToColor(this.state[5][k][j]);;
+                    //left = Utilities.stringToColor(this.state[5][k][j]);
+                    left = Utilities.stringToColor(this.state[5][k][j]);
                 }
                 if(i == dimensions - 1){
-                    right = Utilities.stringToColor(this.state[4][k][j]);;
+                    //right = Utilities.stringToColor(this.state[4][k][j]);
+                    right = Utilities.stringToColor(this.state[4][k][j]);
                 }
 
                 if(k == 0){
-                    back = Utilities.stringToColor(this.state[3][i][j]);;
+                    //back = Utilities.stringToColor(this.state[3][i][j]);
+                    back = Utilities.stringToColor(this.state[3][i][j]);
                 }
                 if(k == dimensions - 1){
+                    //front = Utilities.stringToColor(this.state[2][i][j]);
                     front = Utilities.stringToColor(this.state[2][i][j]);
                 }
                 this.cubies[i][j][k] = new Cubie(this.x+i+i*0.1-this.cubieSize, this.y+j+j*0.1-this.cubieSize, this.z+k+k*0.1-this.cubieSize , this.cubieSize, up, down, front, back, right, left);
@@ -90,10 +141,51 @@ class Cube {
           }
         }
     }
-
+/*
+    repaint(){
+        for(var i = 0; i < dimensions; i++){
+            for(var j = 0; j < dimensions; j++){
+              for(var k = 0; k < dimensions; k++){
+                  var up = blackTexture;
+                  var down = blackTexture;
+                  var front = blackTexture;
+                  var back = blackTexture;
+                  var right = blackTexture;
+                  var left = blackTexture;
+                  if(j == 0){
+                      down = Utilities.stringToTexture(this.state[1][k][i]);
+                  }
+                  if(j == dimensions - 1){
+                      up = Utilities.stringToTexture(this.state[0][k][i]);
+                  }
+  
+                  if(i == 0){
+                      left = Utilities.stringToTexture(this.state[5][k][j]);
+                  }
+                  if(i == dimensions - 1){
+                      right = Utilities.stringToTexture(this.state[4][k][j]);
+                  }
+  
+                  if(k == 0){;
+                      back = Utilities.stringToTexture(this.state[3][i][j]);
+                  }
+                  if(k == dimensions - 1){
+                      front = Utilities.stringToTexture(this.state[2][i][j]);
+                  }
+                  this.cubies[i][j][k].repaint([front, back, right, left, up, down]);
+              }
+            }
+        }
+    }
+*/
     updateCube(){
         this.clearCube();
-        this.paintCube();
+        this.paintCubeTextures();
+    }
+
+    updateCubeQuickMode(){
+        this.clearCube();
+        this.paintCubeColors();
     }
     clearCube(){
         for(var i = 0; i < dimensions; i++){
@@ -110,7 +202,7 @@ class Cube {
         this.updateCube();
     }
 
-    scramble(length){
+    scramble(length, quickMode){
         //generate random sequence, dont make counter moves
         var scramb = [];
         for(var i = 0; i < length; i++){
@@ -127,7 +219,13 @@ class Cube {
             this.state = Utilities.stringToMove(scramb[i], this.state);
         }
 
-        this.updateCube();
+        if(!quickMode){
+            this.updateCube();
+            return;
+        }
+
+        this.updateCubeQuickMode();
+           
     }
 
     solve(animated){
@@ -144,7 +242,7 @@ class Cube {
         totalMoves = 0;
         for(var i = 0; i < amount; i++){
             console.log("Solve: " + (i + 1) + "/" + amount)
-            this.scramble(30);
+            this.scramble(30, true);
             await new Promise(r => setTimeout(r, 1))
             if(!this.solve(false))
             break;
@@ -263,7 +361,7 @@ class Cube {
             curY = newY;
     
             this.cubies[i][j][k].move(curX, curY, curZ);
-            this.cubies[i][j][k].rotate(0,0, speed);
+            this.cubies[i][j][k].rotateAroundWorldAxis(new THREE.Vector3(0,0,1), speed);
         }
         else
         {
@@ -275,7 +373,7 @@ class Cube {
             curY = newY;
     
             this.cubies[i][j][k].move(curX, curY, curZ);
-            this.cubies[i][j][k].rotate(0, 0, -speed);
+            this.cubies[i][j][k].rotateAroundWorldAxis(new THREE.Vector3(0,0,-1), speed);
         }
        
        
@@ -306,14 +404,21 @@ class Cube {
 
             if(front && clock){
                 this.state = Moves.fMove(this.state);
+                Moves.fMoveCube(this);
+                this.adjustCubies();
             }else if(front && !clock){
                 this.state = Moves.fPrimMove(this.state);
+                Moves.fPrimMoveCube(this);
+                this.adjustCubies();
             }else if(!front && !clock){
                 this.state = Moves.bMove(this.state);
+                Moves.bMoveCube(this);
+                this.adjustCubies();
             }else if(!front && clock){
                 this.state = Moves.bPrimMove(this.state);
+                Moves.bPrimMoveCube(this);
+                this.adjustCubies();
             } 
-            this.updateCube();
             return true;
         }      
         return false;
@@ -334,7 +439,7 @@ class Cube {
             curZ = newZ;
     
             this.cubies[i][j][k].move(curX, curY, curZ);
-            this.cubies[i][j][k].rotate(0, -speed, 0);
+            this.cubies[i][j][k].rotateAroundWorldAxis(new THREE.Vector3(0,-1,0), speed);
         }
         else
         {
@@ -346,7 +451,7 @@ class Cube {
             curZ = newZ;
     
             this.cubies[i][j][k].move(curX, curY, curZ);
-            this.cubies[i][j][k].rotate(0, speed, 0);
+            this.cubies[i][j][k].rotateAroundWorldAxis(new THREE.Vector3(0,1,0), speed);
         }       
        
     }
@@ -378,14 +483,22 @@ class Cube {
             
             if(up && clock){
                 this.state = Moves.uMove(this.state);
+                Moves.uMoveCube(this);
+                this.adjustCubies();
             }else if (up && !clock){
                 this.state = Moves.uPrimMove(this.state);
+                Moves.uPrimMoveCube(this);
+                this.adjustCubies();
             }else if(!up && !clock){
                 this.state = Moves.dMove(this.state);
+                Moves.dMoveCube(this);
+                this.adjustCubies();
             }else if(!up && clock){
                 this.state = Moves.dPrimMove(this.state);
+                Moves.dPrimMoveCube(this);
+                this.adjustCubies();
             }
-            this.updateCube();
+
             return true;
         }       
         return false;
@@ -406,7 +519,7 @@ class Cube {
             curZ = newZ;
     
             this.cubies[i][j][k].move(curX, curY, curZ);
-            this.cubies[i][j][k].rotate(speed, 0, 0);
+            this.cubies[i][j][k].rotateAroundWorldAxis(new THREE.Vector3(1,0,0), speed);
         }
         else
         {
@@ -418,7 +531,7 @@ class Cube {
             curZ = newZ;
     
             this.cubies[i][j][k].move(curX, curY, curZ);
-            this.cubies[i][j][k].rotate(-speed, 0, 0);
+            this.cubies[i][j][k].rotateAroundWorldAxis(new THREE.Vector3(-1,0,0), speed);
         }       
        
     }
@@ -449,16 +562,35 @@ class Cube {
             
             if(right && !clock){
                 this.state = Moves.rMove(this.state);
+                Moves.rMoveCube(this);
+                this.adjustCubies();
             }else if (right && clock){
                 this.state = Moves.rPrimMove(this.state);;
+                Moves.rPrimMoveCube(this);
+                this.adjustCubies();
             }else if(!right && clock){
                 this.state = Moves.lMove(this.state);
+                Moves.lMoveCube(this);
+                this.adjustCubies();
             }else if(!right && !clock){
                 this.state = Moves.lPrimMove(this.state);
+                Moves.lPrimMoveCube(this);
+                this.adjustCubies();
             }
-            this.updateCube();
+
             return true;
         }       
         return false;
-    } 
+    }
+    
+    adjustCubies(){
+        for(var i = 0; i < dimensions; i++){
+            for(var j = 0; j < dimensions; j++){
+                for(var k = 0; k < dimensions; k++){
+                    this.cubies[i][j][k].adjustPosition(i,j,k);
+                    this.cubies[i][j][k].adjustAngle();
+                }
+            }
+        }
+    }
 }
