@@ -1,4 +1,5 @@
 var global;
+var textures;
 class Utilities{
     static copyArray(array){
         var ret = [];
@@ -201,7 +202,7 @@ class Utilities{
     }
 
     static importCorrectwhiteCrossMap(){
-        var string = this.readJsonFile("../data/solutions.json");
+        this.readJsonFile("../data/solutions.json");
 
         var obj = JSON.parse(global);
 
@@ -228,28 +229,54 @@ class Utilities{
         rawFile.send(null);
     }
 
-    static laodTextures(textures){
+    static laodTextures(tpID){
 
-        if(textures.length != 0)
+        var path = "";
+        switch(tpID){
+            case 0:
+                path += "../textures/used";
+                break;
+
+            case 1:
+                path += "../textures/veryused";
+                break;
+
+            case 2:
+                path += "../textures/scratched";
+                break;
+
+            case 3:
+                path += "../textures/dots";
+                break;
+
+            case 4:
+                path += "../textures/basic";
+                break;
+        }
+           
+            
+
+
+        if(!texturesChanged)
             return;
 
         textures = [];
-        textures.push(new THREE.TextureLoader().load('../textures/white.png'));
-        textures.push(new THREE.TextureLoader().load('../textures/yellow.png'));
-        textures.push(new THREE.TextureLoader().load('../textures/green.png'));
-        textures.push(new THREE.TextureLoader().load('../textures/blue.png'));
-        textures.push(new THREE.TextureLoader().load('../textures/red.png'));
-        textures.push(new THREE.TextureLoader().load('../textures/orange.png'));
-        textures.push(new THREE.TextureLoader().load('../textures/orange.png'));
-        textures.push(new THREE.TextureLoader().load('../textures/black.png'));
-
-        return textures;
+        textures.push(new THREE.TextureLoader().load(path + '/white.png'));
+        textures.push(new THREE.TextureLoader().load(path + '/yellow.png'));
+        textures.push(new THREE.TextureLoader().load(path + '/green.png'));
+        textures.push(new THREE.TextureLoader().load(path + '/blue.png'));
+        textures.push(new THREE.TextureLoader().load(path + '/red.png'));
+        textures.push(new THREE.TextureLoader().load(path + '/orange.png'));
+        textures.push(new THREE.TextureLoader().load(path + '/black.png'));
+        
+        texturesChanged = false;
         //texture.anisotropy = renderer.getMaxAnisotropy();
     }
 
     static stringToTexture(c){
-        var textures = [];
-        textures = Utilities.laodTextures(textures);
+        if(texturesChanged)
+            Utilities.laodTextures(texturePackID);
+
         switch(c){
             case "W":
                 return textures[0];

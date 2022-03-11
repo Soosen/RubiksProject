@@ -12,10 +12,12 @@ const blackTexture = new THREE.TextureLoader().load('../textures/black.png');
 const dimensions = 3;
 
 //0.48 max speed
-const speed = 0.48;
+const speed = 0.2;
 
-//40/speed min duration
-const spinDuration = 40/speed;
+const turningSpeed = 10;
+const timesToSpin = 3.14/2/speed;
+const fullSpinDuration = Math.ceil(turningSpeed*timesToSpin)*2;
+
 
 class Cube {
     constructor(x, y, z, cs) {
@@ -31,15 +33,7 @@ class Cube {
       this.state = States.resetState();
       this.cubies = this.createCube();
       this.paintCubeTextures();
-      this.blocked = false;
-      this.timer = 0;
-      this.timeToSpin = 3.14/2/speed;
-      this.turnXActive = false;
-      this.turnYActive = false;
-      this.turnZActive = false;
-      this.clck = true;
-      this.direct = true;    
-      
+      this.blocked = false;  
     }
 
     //create empty 3x3x3 array
@@ -66,29 +60,23 @@ class Cube {
                 var right = blackTexture;
                 var left = blackTexture;
                 if(j == 0){
-                    //down = Utilities.stringToColor(this.state[1][k][i]);
                     down = Utilities.stringToTexture(this.state[1][k][i]);
                 }
                 if(j == dimensions - 1){
-                    //up = Utilities.stringToColor(this.state[0][k][i]);
                     up = Utilities.stringToTexture(this.state[0][k][i]);
                 }
 
                 if(i == 0){
-                    //left = Utilities.stringToColor(this.state[5][k][j]);
                     left = Utilities.stringToTexture(this.state[5][k][j]);
                 }
                 if(i == dimensions - 1){
-                    //right = Utilities.stringToColor(this.state[4][k][j]);
                     right = Utilities.stringToTexture(this.state[4][k][j]);
                 }
 
                 if(k == 0){
-                    //back = Utilities.stringToColor(this.state[3][i][j]);
                     back = Utilities.stringToTexture(this.state[3][i][j]);
                 }
                 if(k == dimensions - 1){
-                    //front = Utilities.stringToColor(this.state[2][i][j]);
                     front = Utilities.stringToTexture(this.state[2][i][j]);
                 }
                 this.cubies[i][j][k] = new Cubie(this.x+i+i*0.1-this.cubieSize, this.y+j+j*0.1-this.cubieSize, this.z+k+k*0.1-this.cubieSize , this.cubieSize, up, down, front, back, right, left);
@@ -99,7 +87,6 @@ class Cube {
     }
 
     paintCubeColors() {     
-        console.log("colors"); 
         for(var i = 0; i < dimensions; i++){
           for(var j = 0; j < dimensions; j++){
             for(var k = 0; k < dimensions; k++){
@@ -110,29 +97,23 @@ class Cube {
                 var right = black;
                 var left = black;
                 if(j == 0){
-                    //down = Utilities.stringToColor(this.state[1][k][i]);
                     down = Utilities.stringToColor(this.state[1][k][i]);
                 }
                 if(j == dimensions - 1){
-                    //up = Utilities.stringToColor(this.state[0][k][i]);
                     up = Utilities.stringToColor(this.state[0][k][i]);
                 }
 
                 if(i == 0){
-                    //left = Utilities.stringToColor(this.state[5][k][j]);
                     left = Utilities.stringToColor(this.state[5][k][j]);
                 }
                 if(i == dimensions - 1){
-                    //right = Utilities.stringToColor(this.state[4][k][j]);
                     right = Utilities.stringToColor(this.state[4][k][j]);
                 }
 
                 if(k == 0){
-                    //back = Utilities.stringToColor(this.state[3][i][j]);
                     back = Utilities.stringToColor(this.state[3][i][j]);
                 }
                 if(k == dimensions - 1){
-                    //front = Utilities.stringToColor(this.state[2][i][j]);
                     front = Utilities.stringToColor(this.state[2][i][j]);
                 }
                 this.cubies[i][j][k] = new Cubie(this.x+i+i*0.1-this.cubieSize, this.y+j+j*0.1-this.cubieSize, this.z+k+k*0.1-this.cubieSize , this.cubieSize, up, down, front, back, right, left);
@@ -141,43 +122,7 @@ class Cube {
           }
         }
     }
-/*
-    repaint(){
-        for(var i = 0; i < dimensions; i++){
-            for(var j = 0; j < dimensions; j++){
-              for(var k = 0; k < dimensions; k++){
-                  var up = blackTexture;
-                  var down = blackTexture;
-                  var front = blackTexture;
-                  var back = blackTexture;
-                  var right = blackTexture;
-                  var left = blackTexture;
-                  if(j == 0){
-                      down = Utilities.stringToTexture(this.state[1][k][i]);
-                  }
-                  if(j == dimensions - 1){
-                      up = Utilities.stringToTexture(this.state[0][k][i]);
-                  }
-  
-                  if(i == 0){
-                      left = Utilities.stringToTexture(this.state[5][k][j]);
-                  }
-                  if(i == dimensions - 1){
-                      right = Utilities.stringToTexture(this.state[4][k][j]);
-                  }
-  
-                  if(k == 0){;
-                      back = Utilities.stringToTexture(this.state[3][i][j]);
-                  }
-                  if(k == dimensions - 1){
-                      front = Utilities.stringToTexture(this.state[2][i][j]);
-                  }
-                  this.cubies[i][j][k].repaint([front, back, right, left, up, down]);
-              }
-            }
-        }
-    }
-*/
+
     updateCube(){
         this.clearCube();
         this.paintCubeTextures();
@@ -267,82 +212,54 @@ class Cube {
         this.updateCube();
     }
 
-    animateScramble(scramble){
-        this.turnXActive = false;
-        this.turnYActive = false;
-        this.turnZActive = false;
+    async animateScramble(scramble){
         var counter = 0;
         var interval = window.setInterval(()=>{
             if(counter >= scramble.length - 1){
                 clearInterval(interval) 
             }
             var string = scramble[counter];
-
             switch(string){
                 case "u":
-                    this.turnYActive = true;
-                    this.clck = true;
-                    this.direct = true;
+                    this.turnY(true, true);
                     break;
                 case "uPrim":
-                    this.turnYActive = true;
-                    this.clck = false;
-                    this.direct = true;
+                    this.turnY(true, false);
                     break;
                 case "d":
-                    this.turnYActive = true;
-                    this.clck = true;
-                    this.direct = false;
+                    this.turnY(false, true);
                     break;
                 case "dPrim":
-                    this.turnYActive = true;
-                    this.clck = false;
-                    this.direct = false;
+                    this.turnY(false, false);
                     break;
                 case "f":
-                    this.turnZActive = true;
-                    this.clck = true;
-                    this.direct = true;
+                    this.turnZ(true, true);
                     break;
                 case "fPrim":
-                    this.turnZActive = true;
-                    this.clck = false;
-                    this.direct = true;
+                    this.turnZ(true, false);
                     break;
                 case "b":
-                    this.turnZActive = true;
-                    this.clck = true;
-                    this.direct = false;
+                    this.turnZ(false, true);
                     break;
                 case "bPrim":
-                    this.turnZActive = true;
-                    this.clck = false;
-                    this.direct = false;
+                    this.turnZ(false, false);
                     break;
                 case "r":
-                    this.turnXActive = true;
-                    this.clck = true;
-                    this.direct = true;
+                    this.turnX(true, true);
                     break;
                 case "rPrim":
-                    this.turnXActive = true;
-                    this.clck = false;
-                    this.direct = true;
+                    this.turnX(true, false);
                     break;
                 case "l":
-                    this.turnXActive = true;
-                    this.clck = true;
-                    this.direct = false;
+                    this.turnX(false, true);
                     break;
                 case "lPrim":
-                    this.turnXActive = true;
-                    this.clck = false;
-                    this.direct = false;
+                    this.turnX(false, false);
                     break;
                     
             }
             counter++;
-        }, spinDuration);            
+        }, fullSpinDuration);            
     }          
 
     //f, b
@@ -379,49 +296,53 @@ class Cube {
        
     }
 
-    turnZ(front, clock){
+    async turnZ(front, clock){
+        if(this.blocked)
+            return;
+
         this.blocked = true;
-        this.timer++;
-        if(this.turnZActive){
-            if(front){
-                var layer = 2;
-            }
-            else
-            {
-                var layer = 0;
-                clock = !clock;
-            }
+        var timer = 0;
+
+        if(front){
+            var layer = 2;
+        }
+        else
+        {
+            var layer = 0;
+            clock = !clock;
+        }
+
+        while(true){
+            timer++;
             for(var i = 0; i < dimensions; i++){
                 for(var j = 0; j < dimensions; j++){
                     this.turnZSingleCube(i, j, layer, clock);
                 }
             }
-        }
-        if(this.timer >= this.timeToSpin){
-            this.turnZActive = false;
-            this.blocked = false;
-            this.timer = 0;
-
-            if(front && clock){
-                this.state = Moves.fMove(this.state);
-                Moves.fMoveCube(this);
-                this.adjustCubies();
-            }else if(front && !clock){
-                this.state = Moves.fPrimMove(this.state);
-                Moves.fPrimMoveCube(this);
-                this.adjustCubies();
-            }else if(!front && !clock){
-                this.state = Moves.bMove(this.state);
-                Moves.bMoveCube(this);
-                this.adjustCubies();
-            }else if(!front && clock){
-                this.state = Moves.bPrimMove(this.state);
-                Moves.bPrimMoveCube(this);
-                this.adjustCubies();
-            } 
-            return true;
-        }      
-        return false;
+            if(timer >= timesToSpin){
+                this.blocked = false;
+    
+                if(front && clock){
+                    this.state = Moves.fMove(this.state);
+                    Moves.fMoveCube(this);
+                    this.adjustCubies();
+                }else if(front && !clock){
+                    this.state = Moves.fPrimMove(this.state);
+                    Moves.fPrimMoveCube(this);
+                    this.adjustCubies();
+                }else if(!front && !clock){
+                    this.state = Moves.bMove(this.state);
+                    Moves.bMoveCube(this);
+                    this.adjustCubies();
+                }else if(!front && clock){
+                    this.state = Moves.bPrimMove(this.state);
+                    Moves.bPrimMoveCube(this);
+                    this.adjustCubies();
+                } 
+                return Promise.resolve(true);
+            }
+            await new Promise(resolve => setTimeout(resolve, turningSpeed));
+        }        
     }
 
     turnYSingleCube(i,j,k, clock){
@@ -456,52 +377,56 @@ class Cube {
        
     }
 
-    turnY(up, clock){
-        this.blocked = true;
-        this.timer++;
-        if(this.turnYActive){
-            if(up){
-                var layer = 2;
+    async turnY(up, clock){
+        if(this.blocked)
+            return;
 
-            }
-            else
-            {
-                var layer = 0;
-                clock = !clock;
-            }
+        this.blocked = true;
+        var timer = 0;
+
+        if(up){
+            var layer = 2;
+
+        }
+        else
+        {
+            var layer = 0;
+            clock = !clock;
+        }
+    
+        while(true){
+            timer++;
+
             for(var i = 0; i < dimensions; i++){
                 for(var j = 0; j < dimensions; j++){
                     this.turnYSingleCube(i, layer, j, clock);
                 }
             }
-        }
-        if(this.timer >= this.timeToSpin){
-            this.turnYActive = false;
-            this.blocked = false;
-            this.timer = 0;
 
-            
-            if(up && clock){
-                this.state = Moves.uMove(this.state);
-                Moves.uMoveCube(this);
-                this.adjustCubies();
-            }else if (up && !clock){
-                this.state = Moves.uPrimMove(this.state);
-                Moves.uPrimMoveCube(this);
-                this.adjustCubies();
-            }else if(!up && !clock){
-                this.state = Moves.dMove(this.state);
-                Moves.dMoveCube(this);
-                this.adjustCubies();
-            }else if(!up && clock){
-                this.state = Moves.dPrimMove(this.state);
-                Moves.dPrimMoveCube(this);
-                this.adjustCubies();
+            if(timer >= timesToSpin){
+                this.blocked = false;
+ 
+                if(up && clock){
+                    this.state = Moves.uMove(this.state);
+                    Moves.uMoveCube(this);
+                    this.adjustCubies();
+                }else if (up && !clock){
+                    this.state = Moves.uPrimMove(this.state);
+                    Moves.uPrimMoveCube(this);
+                    this.adjustCubies();
+                }else if(!up && !clock){
+                    this.state = Moves.dMove(this.state);
+                    Moves.dMoveCube(this);
+                    this.adjustCubies();
+                }else if(!up && clock){
+                    this.state = Moves.dPrimMove(this.state);
+                    Moves.dPrimMoveCube(this);
+                    this.adjustCubies();
+                }
+                return Promise.resolve(true);
             }
-
-            return true;
+            await new Promise(resolve => setTimeout(resolve, turningSpeed));
         }       
-        return false;
     }
 
     turnXSingleCube(i,j,k, clock){
@@ -536,51 +461,55 @@ class Cube {
        
     }
 
-    turnX(right, clock){
+    async turnX(right, clock){
+
+        if(this.blocked)
+            return;
+
         this.blocked = true;
-        this.timer++;
-        if(this.turnXActive){
-            if(right){
-                var layer = 2;
-                clock = !clock; 
-            }
-            else
-            {
-                var layer = 0;                               
-            }
+        var timer = 0;
+
+        if(right){
+            var layer = 2;
+            clock = !clock; 
+        }
+        else
+        {
+            var layer = 0;                               
+        }
+        
+        while(true){
+            timer++;
             for(var i = 0; i < dimensions; i++){
                 for(var j = 0; j < dimensions; j++){
                     this.turnXSingleCube(layer, i, j, clock);
                 }
             }
-        }
-        if(this.timer >= this.timeToSpin){
-            this.turnXActive = false;
-            this.blocked = false;
-            this.timer = 0;
-
-            
-            if(right && !clock){
-                this.state = Moves.rMove(this.state);
-                Moves.rMoveCube(this);
-                this.adjustCubies();
-            }else if (right && clock){
-                this.state = Moves.rPrimMove(this.state);;
-                Moves.rPrimMoveCube(this);
-                this.adjustCubies();
-            }else if(!right && clock){
-                this.state = Moves.lMove(this.state);
-                Moves.lMoveCube(this);
-                this.adjustCubies();
-            }else if(!right && !clock){
-                this.state = Moves.lPrimMove(this.state);
-                Moves.lPrimMoveCube(this);
-                this.adjustCubies();
+    
+            if(timer >= timesToSpin){
+                this.blocked = false;
+                
+                if(right && !clock){
+                    this.state = Moves.rMove(this.state);
+                    Moves.rMoveCube(this);
+                    this.adjustCubies();
+                }else if (right && clock){
+                    this.state = Moves.rPrimMove(this.state);;
+                    Moves.rPrimMoveCube(this);
+                    this.adjustCubies();
+                }else if(!right && clock){
+                    this.state = Moves.lMove(this.state);
+                    Moves.lMoveCube(this);
+                    this.adjustCubies();
+                }else if(!right && !clock){
+                    this.state = Moves.lPrimMove(this.state);
+                    Moves.lPrimMoveCube(this);
+                    this.adjustCubies(); 
+                }
+                return Promise.resolve(true);  
             }
-
-            return true;
+            await new Promise(resolve => setTimeout(resolve, turningSpeed));
         }       
-        return false;
     }
     
     adjustCubies(){

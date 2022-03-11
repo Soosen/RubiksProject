@@ -5,7 +5,6 @@ class Cubie {
     this.z = z;
     this.radian = 0;
     this.sideLength = sl;
-    //this.colors = [u, d, f, b, r, l];
     this.textures = [u, d, f, b, r, l];
     this.cubie;       
   }
@@ -36,71 +35,12 @@ class Cubie {
       ];
     }
    
-    /*
-    var material = new THREE.MeshFaceMaterial([
-      new THREE.MeshBasicMaterial({
-          //color: 0x00ff00
-          map: this.textures[0]
-      }),
-      new THREE.MeshBasicMaterial({
-          //color: 0xff0000
-          map: this.textures[1]
-      }),
-      new THREE.MeshBasicMaterial({
-          //color: 0x0000ff
-          map: this.textures[2]
-          //map: texture
-      }),
-      new THREE.MeshBasicMaterial({
-          //color: 0xffff00
-          map: this.textures[3]
-      }),
-      new THREE.MeshBasicMaterial({
-          //color: 0x00ffff
-          map: this.textures[4]
-      }),
-      new THREE.MeshBasicMaterial({
-          //color: 0xff00ff
-          map: this.textures[5]
-      })
-    ]);
-    */
+
 
     this.cubie = new THREE.Mesh( geometry, materials );
 
     this.cubie.position.set(this.x, this.y, this.z);
-    //Adds cubie to the scene
     scene.add(this.cubie);
-    /*
-    var geometry = new THREE.BoxGeometry( this.sideLength, this.sideLength, this.sideLength).toNonIndexed();;
-    var material = new THREE.MeshBasicMaterial( { vertexColors: true } );
-    var positionAttribute = geometry.getAttribute( 'position' );
-    var colorsTemp = [];
-    for ( let i = 0; i < positionAttribute.count/2; i += 3 ) {
-      
-      var color = new THREE.Color();
-      color.copy(this.colors[i/3]);
-      
-      // define the same color for each vertex of a triangle
-      
-      colorsTemp.push( color.r, color.g, color.b );
-      colorsTemp.push( color.r, color.g, color.b );
-      colorsTemp.push( color.r, color.g, color.b );
-      colorsTemp.push( color.r, color.g, color.b );
-      colorsTemp.push( color.r, color.g, color.b );
-      colorsTemp.push( color.r, color.g, color.b );
-  
-    }
-  
-    // define the new attribute    
-    geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colorsTemp, 3 ) );
-
-    this.cubie = new THREE.Mesh( geometry, material );
-
-    this.cubie.position.set(this.x, this.y, this.z);
-    //Adds cubie to the scene
-    scene.add(this.cubie);
-    */
   }
 
   repaint(textures){
