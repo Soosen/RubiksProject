@@ -4,7 +4,8 @@ const height = 800;
 var texturePackID = 4;
 var texturesChanged = true;
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, width / height, 2, 2000 );
+scene.background = new THREE.Color( 0x838A92 );
+var camera = new THREE.PerspectiveCamera( 75, width / height, 2, 1000 );
 var controls;
 
 
@@ -78,7 +79,7 @@ async function onDocumentKeyDown(event) {
 
         case 83:
           //s
-          cube.scramble(30, false);
+          cube.scramble(30);
           await new Promise(r => setTimeout(r, 20))
           cube.solve(true);    
           break;
@@ -100,7 +101,7 @@ async function onDocumentKeyDown(event) {
       case 67:
         //c      
         clockwise = !clockwise;
-        if(cube.clck ){
+        if(clockwise){
           console.log("clockwise");
           break
         }          

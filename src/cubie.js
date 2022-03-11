@@ -12,30 +12,14 @@ class Cubie {
   draw(){
     var geometry = new THREE.BoxBufferGeometry( this.sideLength, this.sideLength, this.sideLength).toNonIndexed();
     
-    if(this.textures[0] instanceof THREE.Texture)
-    {
-      var materials = [
-        new THREE.MeshBasicMaterial( { map: this.textures[0]} ),
-        new THREE.MeshBasicMaterial( { map: this.textures[1] } ),
-        new THREE.MeshBasicMaterial( { map: this.textures[2] } ),
-        new THREE.MeshBasicMaterial( { map: this.textures[3] } ),
-        new THREE.MeshBasicMaterial( { map: this.textures[4] } ),
-        new THREE.MeshBasicMaterial( { map: this.textures[5] } )
-      ];
-    }
-    else
-    {
-      var materials = [
-        new THREE.MeshBasicMaterial( { color: this.textures[0]} ),
-        new THREE.MeshBasicMaterial( { color: this.textures[1] } ),
-        new THREE.MeshBasicMaterial( { color: this.textures[2] } ),
-        new THREE.MeshBasicMaterial( { color: this.textures[3] } ),
-        new THREE.MeshBasicMaterial( { color: this.textures[4] } ),
-        new THREE.MeshBasicMaterial( { color: this.textures[5] } )
-      ];
-    }
-   
-
+    var materials = [
+      new THREE.MeshBasicMaterial( { map: this.textures[0]} ),
+      new THREE.MeshBasicMaterial( { map: this.textures[1] } ),
+      new THREE.MeshBasicMaterial( { map: this.textures[2] } ),
+      new THREE.MeshBasicMaterial( { map: this.textures[3] } ),
+      new THREE.MeshBasicMaterial( { map: this.textures[4] } ),
+      new THREE.MeshBasicMaterial( { map: this.textures[5] } )
+    ];
 
     this.cubie = new THREE.Mesh( geometry, materials );
 

@@ -32,7 +32,7 @@ class Cube {
       this.radius = this.midX - this.x;
       this.state = States.resetState();
       this.cubies = this.createCube();
-      this.paintCubeTextures();
+      this.paintCube();
       this.blocked = false;  
     }
 
@@ -49,7 +49,7 @@ class Cube {
     }
 
     //create all cubies objects and select accurate colors
-    paintCubeTextures() {    
+    paintCube() {    
         for(var i = 0; i < dimensions; i++){
           for(var j = 0; j < dimensions; j++){
             for(var k = 0; k < dimensions; k++){
@@ -86,52 +86,12 @@ class Cube {
         }
     }
 
-    paintCubeColors() {     
-        for(var i = 0; i < dimensions; i++){
-          for(var j = 0; j < dimensions; j++){
-            for(var k = 0; k < dimensions; k++){
-                var up = black;
-                var down = black;
-                var front = black;
-                var back = black;
-                var right = black;
-                var left = black;
-                if(j == 0){
-                    down = Utilities.stringToColor(this.state[1][k][i]);
-                }
-                if(j == dimensions - 1){
-                    up = Utilities.stringToColor(this.state[0][k][i]);
-                }
-
-                if(i == 0){
-                    left = Utilities.stringToColor(this.state[5][k][j]);
-                }
-                if(i == dimensions - 1){
-                    right = Utilities.stringToColor(this.state[4][k][j]);
-                }
-
-                if(k == 0){
-                    back = Utilities.stringToColor(this.state[3][i][j]);
-                }
-                if(k == dimensions - 1){
-                    front = Utilities.stringToColor(this.state[2][i][j]);
-                }
-                this.cubies[i][j][k] = new Cubie(this.x+i+i*0.1-this.cubieSize, this.y+j+j*0.1-this.cubieSize, this.z+k+k*0.1-this.cubieSize , this.cubieSize, up, down, front, back, right, left);
-                this.cubies[i][j][k].draw();
-            }
-          }
-        }
-    }
-
+    
     updateCube(){
         this.clearCube();
-        this.paintCubeTextures();
+        this.paintCube();
     }
 
-    updateCubeQuickMode(){
-        this.clearCube();
-        this.paintCubeColors();
-    }
     clearCube(){
         for(var i = 0; i < dimensions; i++){
             for(var j = 0; j < dimensions; j++){
@@ -147,7 +107,7 @@ class Cube {
         this.updateCube();
     }
 
-    scramble(length, quickMode){
+    scramble(length){
         //generate random sequence, dont make counter moves
         var scramb = [];
         for(var i = 0; i < length; i++){
@@ -164,13 +124,7 @@ class Cube {
             this.state = Utilities.stringToMove(scramb[i], this.state);
         }
 
-        if(!quickMode){
-            this.updateCube();
-            return;
-        }
-
-        this.updateCubeQuickMode();
-           
+        this.updateCube();
     }
 
     solve(animated){
@@ -187,7 +141,7 @@ class Cube {
         totalMoves = 0;
         for(var i = 0; i < amount; i++){
             console.log("Solve: " + (i + 1) + "/" + amount)
-            this.scramble(30, true);
+            this.scramble(30);
             await new Promise(r => setTimeout(r, 1))
             if(!this.solve(false))
             break;
