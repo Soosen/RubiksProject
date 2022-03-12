@@ -123,6 +123,9 @@ class Utilities{
         var decoded = [];
 
         for(var i = 0; i < scramble.length; i++){
+            if(scramble[i].length == 0)
+                continue;
+
             if(scramble[i].includes("-")){
                 var temp = scramble[i].split("-");
                 for(var j = 0; j < temp.length; j++){
@@ -202,7 +205,7 @@ class Utilities{
     }
 
     static importCorrectwhiteCrossMap(){
-        this.readJsonFile("../data/solutions.json");
+        this.readJsonFile("../data/solutionsWhiteCross.json");
 
         var obj = JSON.parse(global);
 
@@ -299,6 +302,65 @@ class Utilities{
             default:
                 return textures[6];            
         }
+    }
+    static scrambleToString(scramb){
+        var retString = "";
+        for(var i = 0; i < scramb.length; i++){
+            if(i != 0)
+                retString += " ";
+
+            switch(scramb[i]){
+                case "u":
+                    retString += "U";
+                    break
+
+                case "uPrim":
+                    retString += "U'";
+                    break
+                
+                case "d":
+                    retString += "D";
+                    break
+
+                case "dPrim":
+                     retString += "D'";
+                    break
+
+                case "f":
+                    retString += "F";
+                    break
+
+                case "fPrim":
+                    retString += "F'";
+                    break
+
+                case "b":
+                    retString += "B";
+                    break
+
+                case "bPrim":
+                    retString += "B'";
+                    break
+
+                case "r":
+                    retString += "R";
+                    break
+                 
+                case "rPrim":
+                    retString += "R'";
+                    break
+                    
+                case "l":
+                    retString += "L";
+                    break
+
+                case "lPrim":
+                    retString += "L'";
+                    break
+            }
+        }
+
+        return retString;
     }
 }
     

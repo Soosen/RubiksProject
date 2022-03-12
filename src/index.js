@@ -7,11 +7,14 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-const createWindow = () => {
+const createWindow = (w, h) => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1400,
-    height: 900,
+    width: w,
+    height: h,
+    title: "Rubiks Project by Soosen",
+    icon: "rubiks.ico",
+    webPreferences: { devTools: false }
   });
 
   // and load the index.html of the app.
@@ -24,7 +27,16 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.whenReady().then(() => {
+  // We cannot require the screen module until the app is ready.
+  const { screen } = require('electron')
+
+  // Create a window that fills the screen's available work area.
+  const primaryDisplay = screen.getPrimaryDisplay()
+  const { width, height } = primaryDisplay.workAreaSize
+
+ createWindow(width, height);
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -45,3 +57,4 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+

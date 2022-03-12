@@ -26,9 +26,9 @@ class Cube {
       this.z = z;
       this.solver = new Solver();
       this.cubieSize = cs;
-      this.midX = this.x + dimensions/2*0.1 + 1.5*this.cubieSize;
-      this.midY = this.y + dimensions/2*0.1 + 1.5*this.cubieSize;
-      this.midZ = this.z + dimensions/2*0.1 + 1.5*this.cubieSize;
+      this.midX = this.x + 0.1 + 1.5*this.cubieSize;
+      this.midY = this.y + 0.1 + 1.5*this.cubieSize;
+      this.midZ = this.z + 0.1 + 1.5*this.cubieSize;
       this.radius = this.midX - this.x;
       this.state = States.resetState();
       this.cubies = this.createCube();
@@ -125,12 +125,15 @@ class Cube {
         }
 
         this.updateCube();
+        return scramb;
     }
 
     solve(animated){
 
         var currentState = Utilities.copyState(this.state);
-        this.applyScramble(this.solver.solveCube(currentState), animated);
+        var solution = this.solver.solveCube(currentState)
+        this.applyScramble(solution, animated);
+        scrambleOrSolution.textContent = Utilities.scrambleToString(solution);
 
         return Utilities.copmareStates(this.state, States.resetState());
 
@@ -141,13 +144,18 @@ class Cube {
         totalMoves = 0;
         for(var i = 0; i < amount; i++){
             console.log("Solve: " + (i + 1) + "/" + amount)
+            logHeader.textContent = "Solve: " + (i + 1) + "/" + amount;
             this.scramble(30);
             await new Promise(r => setTimeout(r, 1))
             if(!this.solve(false))
             break;
           }
-          console.log("Average Time = " + Math.floor(totalDuration/amount) + " Miliseconds");
+
           console.log("Average Moves = " + Math.floor(totalMoves/amount) + " Moves");
+          movesLabel.textContent = "Average Moves: " + Math.floor(totalMoves/amount) + "\n";
+
+          console.log("Average Time = " + Math.floor(totalDuration/amount) + " Miliseconds");
+          timeLabel.textContent = "Average Time: " + Math.floor(totalDuration/amount) + " ms";  
     }
 
     applyScramble(scramb, animated){

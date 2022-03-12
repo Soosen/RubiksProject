@@ -3,8 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <title>Rubiks Project</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;700&display=swap" rel="stylesheet">
   </head>
   <body>
+    <header>
+      <div class="logo">
+        <div>
+            <h1>Rubiks<span>Project</span></h1>
+        </div>
+    </div>
+    <div class="inner">
+        <nav>
+            <li><span><button type="button" href="" id = "buttonScramble" class="button">Scramble</button></span></li>
+            <li><span><button type="button" href="" id = "buttonSolve" class="button">Solve</button></span></li>
+            <li><span><button type="button" href="" id = "buttonReset" class="button">Reset</buttona></span></li>
+            <li><span><button type="button" href="" id = "buttonMultiSolve" class="button">Multi Solve</buttona></span></li>
+            <li><span><button type="button" href="" id = "buttonRetexture" class="button">Retexture</buttona></span></li>
+        </nav>
+      </div>
+   </header>
+    <div class = "hero">
+      <div class="cubeContainer">
+        <div id = "cube"></div>
+      </div> 
+      <div class = "inputButtons">
+        <nav>
+          <li><span><button type="button" href="" id = "u" class="button">U</button></span></li>
+          <li><span><button type="button" href="" id = "uPrim" class="button">U'</button></span></li>
+      </nav>
+      <nav>
+        <li><span><button type="button" href="" id = "r" class="button">R</button></span></li>
+        <li><span><button type="button" href="" id = "rPrim" class="button">R'</button></span></li>
+      </nav>
+      <nav>
+        <li><span><button type="button" href="" id = "l" class="button">L</button></span></li>
+        <li><span><button type="button" href="" id = "lPrim" class="button">L'</button></span></li>
+      </nav>
+      <nav>
+        <li><span><button type="button" href="" id = "f" class="button">F</button></span></li>
+        <li><span><button type="button" href="" id = "fPrim" class="button">F'</button></span></li>
+      </nav>
+      <nav>
+        <li><span><button type="button" href="" id = "b" class="button">B</button></span></li>
+        <li><span><button type="button" href="" id = "bPrim" class="button">B'</button></span></li>
+      </nav>
+      <nav>
+        <li><span><button type="button" href="" id = "d" class="button">D</button></span></li>
+        <li><span><button type="button" href="" id = "dPrim" class="button">D'</button></span></li>
+      </nav>
+      </div>
+      <div class = "logs">
+        <h2 id = "logHeader" >Moves</h2>
+        <p id = "scrambleOrSolution"></p>
+        <p1 id = "moves">Moves: 0</p1>
+        <p1 id = "time"></p>
+      </div>
+      </div>
+      </div> 
+    </div> 
+    <footer>
+      <div class="footer-content">
+        <h1>Rubiks Cube Solver</h1>
+        <p>by Soosen</p>
+      </div>
+    </footer>
     <script src="libs/three.js"></script>    
     <script src="libs//OrbitControls.js"></script>
     <script src="libs/queue.js"></script>
@@ -15,6 +80,7 @@
     <script src="states.js"></script> 
     <script src="solver.js"></script> 
     <script src="cube.js"></script> 
+    <script src="userInterface.js"></script> 
     <script src="sketch.js"></script> 
   </body>
 </html>

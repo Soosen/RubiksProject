@@ -60,7 +60,11 @@ class Solver{
             var duration = new Date() - startingTime;
             console.log("Solved!")
             console.log("Solution's length = " + solution.length);
+            movesLabel.textContent = "Moves: " + solution.length;
+
             console.log("Total time = " + duration +" Miliseconds")
+            timeLabel.textContent = "Time: " + duration + " ms";
+
             console.log("%cSolution = " + solution, "color: green");
             totalDuration += duration;
             totalMoves += solution.length;

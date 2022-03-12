@@ -1,35 +1,40 @@
 const width = 800;
 const height = 800;
 
-var texturePackID = 4;
-var texturesChanged = true;
+//scene
 var scene = new THREE.Scene();
-scene.background = new THREE.Color( 0x838A92 );
-var camera = new THREE.PerspectiveCamera( 75, width / height, 2, 1000 );
-var controls;
 
-
-//Cube
-var cube = new Cube(0, 0, 0, 1);
-
-//map of white cross solutions pulled from a sollutions.json
-var correctCrossMap = Utilities.importCorrectwhiteCrossMap();
-
-var clockwise = true;
-
-//Sets camera's distance away from cube (using this explanation only for simplicity's sake - in reality this actually sets the 'depth' of the camera's position)
+//camera
+var camera = new THREE.PerspectiveCamera(75, width / height, 2, 1000 );
 camera.position.z = 10;
 camera.position.x = 3;
-camera.position.y = 3;
-camera.lookAt (new THREE.Vector3(cube.midX, cube.midY, cube.midZ));  
+camera.position.y = 3;  
 
-
-//Creates renderer and adds it to the DOM
-var renderer = new THREE.WebGLRenderer();
+//rednerer
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setClearColor( 0x000000, 0 )
 renderer.setSize(width, height);
-controls = new THREE.OrbitControls (camera, renderer.domElement);
-document.body.appendChild( renderer.domElement );
+const div = document.getElementsByClassName('cubeContainer');
+//div[0].appendChild(renderer.domElement);
+//document.body.appendChild( renderer.domElement );
+document.querySelector('#cube').appendChild( renderer.domElement );
 
+//camera controls
+const controls = new THREE.OrbitControls (camera, renderer.domElement);
+controls.minDistance = 5;
+controls.maxDistance = 8;
+controls.enablePan = false;
+
+
+//setup
+var texturePackID = 0;
+var texturesChanged = true;
+var clockwise = true;
+var correctCrossMap = Utilities.importCorrectwhiteCrossMap();
+
+//cube
+var cube = new Cube(0, 0, 0, 1);
+camera.lookAt (new THREE.Vector3(cube.midX, cube.midY, cube.midZ));
 
 
 
@@ -47,41 +52,62 @@ async function onDocumentKeyDown(event) {
       switch(keyCode){
         case 70:
           //f
-          await cube.turnZ(true, clockwise);
+          if(clockwise){
+            fMoveUI();
+            break;
+          }
+          fPrimMoveUI();
           break;
   
         case 85:
           //u
-          await cube.turnY(true, clockwise);
+          if(clockwise){
+            uMoveUI();
+            break;
+          }
+          uPrimMoveUI();
           break;
     
   
         case 82:
           //r
-          await cube.turnX(true, clockwise);
+          if(clockwise){
+            rMoveUI();
+            break;
+          }
+          rPrimMoveUI();
           break;
-  
         case 66:
           //b
-          await cube.turnZ(false, clockwise);
+          if(clockwise){
+            bMoveUI();
+            break;
+          }
+          bPrimMoveUI();
           break;
   
         case 68:
           //d
-          await cube.turnY(false, clockwise);
-          break;
+          if(clockwise){
+            dMoveUI();
+            break;
+          }
+          dPrimMoveUI();
     
   
         case 76:
           //l
-          await cube.turnX(false, clockwise);
+          if(clockwise){
+            lMoveUI();
+            break;
+          }
+          lPrimMoveUI();
           break;
 
         case 83:
           //s
-          cube.scramble(30);
-          await new Promise(r => setTimeout(r, 20))
-          cube.solve(true);    
+         scrambleUI();
+         solveUI();
           break;
 
         case 77:
@@ -90,8 +116,8 @@ async function onDocumentKeyDown(event) {
           break;
 
         case 88:
-          //r
-          cube.resetCube();
+          //x
+          resetUI();
           break;
       }
     }
@@ -109,10 +135,7 @@ async function onDocumentKeyDown(event) {
         break;
 
       case 84:
-        texturePackID = (texturePackID + 1) % 5;
-        texturesChanged = true;
-        Utilities.laodTextures(texturePackID);
-        cube.updateCube();
+        retextureUI();
         break;
       }
   }
