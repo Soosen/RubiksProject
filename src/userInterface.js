@@ -107,6 +107,7 @@ async function uMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnY(true, true);
@@ -121,6 +122,7 @@ async function uPrimMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnY(true, false);
@@ -135,6 +137,7 @@ async function dMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnY(false, true);
@@ -149,6 +152,7 @@ async function dPrimMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnY(false, false);
@@ -163,6 +167,7 @@ async function rMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnX(true, true);
@@ -177,6 +182,7 @@ async function rPrimMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnX(true, false);
@@ -191,6 +197,7 @@ async function lMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnX(false, true);
@@ -205,6 +212,7 @@ async function lPrimMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnX(false, false);
@@ -219,6 +227,7 @@ async function fMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnZ(true, true);
@@ -233,11 +242,7 @@ async function fPrimMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
-    }
-    
-    if(resetMoves){
-        scrambleOrSolution.textContent = "";
-        resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnZ(true, false);
@@ -252,6 +257,7 @@ async function bMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
     
     await cube.turnZ(false, true);
@@ -266,6 +272,7 @@ async function bPrimMoveUI(){
     if(resetMoves){
         scrambleOrSolution.textContent = "";
         resetMoves = false;
+        movesCouner = 0;
     }
 
     await cube.turnZ(false, false);
