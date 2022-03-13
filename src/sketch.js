@@ -15,8 +15,6 @@ const renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.setClearColor( 0x000000, 0 )
 renderer.setSize(width, height);
 const div = document.getElementsByClassName('cubeContainer');
-//div[0].appendChild(renderer.domElement);
-//document.body.appendChild( renderer.domElement );
 document.querySelector('#cube').appendChild( renderer.domElement );
 
 //camera controls
