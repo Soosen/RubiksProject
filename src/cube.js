@@ -7,7 +7,7 @@ const white = new THREE.Color( 0xFFFFFF );
 const yellow = new THREE.Color( 0xFFFF00 );
 const black = new THREE.Color( 0x000000 );
 
-const blackTexture = new THREE.TextureLoader().load('../textures/black.png');
+//const blackTexture = new THREE.TextureLoader().load('../textures/black.png');
 
 const dimensions = 3;
 
@@ -53,12 +53,12 @@ class Cube {
         for(var i = 0; i < dimensions; i++){
           for(var j = 0; j < dimensions; j++){
             for(var k = 0; k < dimensions; k++){
-                var up = blackTexture;
-                var down = blackTexture;
-                var front = blackTexture;
-                var back = blackTexture;
-                var right = blackTexture;
-                var left = blackTexture;
+                var up;
+                var down;
+                var front;
+                var back;
+                var right;
+                var left;
                 if(j == 0){
                     down = Utilities.stringToTexture(this.state[1][k][i]);
                 }
