@@ -206,7 +206,7 @@ class Utilities{
 
     static async importCorrectwhiteCrossMap(correctCrossMap){
 
-        const response = await fetch('/data/solutionsWhiteCross2.json')
+        const response = await fetch('../data/solutionsWhiteCross.json')
         const data = await response.json()
         const map = new Map(Object.entries(data))
         return map
@@ -218,15 +218,15 @@ class Utilities{
         var path = "";
         switch(tpID){
             case 0:
-                path += "/textures/used";
+                path += "../textures/used";
                 break;
 
             case 1:
-                path += "/textures/veryused";
+                path += "../textures/veryused";
                 break;
 
             case 2:
-                path += "/textures/scratched";
+                path += "../textures/scratched";
                 break;
 
             case 3:
@@ -234,7 +234,7 @@ class Utilities{
                 break;
 
             case 4:
-                path += "/textures/basic";
+                path += "../textures/basic";
                 break;
         }
            
