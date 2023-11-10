@@ -50,7 +50,6 @@ class Solver{
             return solution;
         }
         
-        
         //PLL
         console.log("4.Permuting last layer");
         currentState, solution = this.solvePll(currentState, solution);
