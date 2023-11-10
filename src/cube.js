@@ -7,7 +7,7 @@ const white = new THREE.Color( 0xFFFFFF );
 const yellow = new THREE.Color( 0xFFFF00 );
 const black = new THREE.Color( 0x000000 );
 
-const blackTexture = new THREE.TextureLoader().load('textures/black.png');
+const blackTexture = Utilities.stringToTexture("X");
 
 const dimensions = 3;
 
