@@ -204,33 +204,14 @@ class Utilities{
         return bestSol;
     }
 
-    static importCorrectwhiteCrossMap(){
-        this.readJsonFile("../data/solutionsWhiteCross.json");
+    static async importCorrectwhiteCrossMap(correctCrossMap){
 
-        var obj = JSON.parse(global);
-
-        return new Map(Object.entries(obj));
-
+        const response = await fetch('../data/solutionsWhiteCross.json')
+        const data = await response.json()
+        const map = new Map(Object.entries(data))
+        return map
     }
 
-    static readJsonFile(file)
-    {
-        var allText
-        var rawFile = new XMLHttpRequest();
-        rawFile.open("GET", file, false);
-        rawFile.onreadystatechange = function ()
-        {
-            if(rawFile.readyState === 4)
-            {
-                if(rawFile.status === 200 || rawFile.status == 0)
-                {
-                    allText = rawFile.responseText;
-                    global = allText;
-                }
-            }
-        }
-        rawFile.send(null);
-    }
 
     static laodTextures(tpID){
 
