@@ -206,7 +206,7 @@ class Utilities{
 
     static async importCorrectwhiteCrossMap(correctCrossMap){
 
-        const response = await fetch('../data/solutionsWhiteCross.json')
+        const response = await fetch('../data/solutionsWhiteCross2.json')
         const data = await response.json()
         const map = new Map(Object.entries(data))
         return map
