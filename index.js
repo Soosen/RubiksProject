@@ -28,7 +28,7 @@ controls.enablePan = false;
 var texturePackID = 0;
 var texturesChanged = true;
 var clockwise = true;
-var correctCrossMap = Utilities.importCorrectwhiteCrossMap();
+//var correctCrossMap = Utilities.importCorrectwhiteCrossMap();
 
 //cube
 var cube = new Cube(0, 0, 0, 1);
